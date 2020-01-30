@@ -1,5 +1,9 @@
 import numpy
 import skimage.io
+import matplotlib.pyplot
+
+matplotlib.pyplot.rcParams["image.cmap"] = 'viridis'
+# matplotlib.pyplot.rcParams["image.cmap"] = 'gray'
 
 def open_rgb(filepath):
     return skimage.io.imread(fname=filepath)
@@ -11,6 +15,29 @@ def split_by_channels(img):
     n = len(img[0, 0, :])
     return [ img[:, :, i] for i in range(n) ]
 
+def show_one(img, vmin=None, vmax=None):
+    if vmin is None and vmax is None:
+        matplotlib.pyplot.imshow(img)
+    else:
+        matplotlib.pyplot.imshow(img, vmin=vmin, vmax=vmax)
+    matplotlib.pyplot.show()
+
+def show_in_grid(images, rows, cols, width, height, vmin=None, vmax=None):
+    fig, axs = matplotlib.pyplot.subplots(
+        nrows=rows, ncols=cols,
+        figsize=(width, height),
+        subplot_kw={'xticks': [], 'yticks': []}
+    )
+    for ax, img in zip(axs.flat, images):
+        if vmin is None and vmax is None:
+            ax.imshow(img)
+        else:
+             ax.imshow(img, vmin=vmin, vmax=vmax)
+    matplotlib.pyplot.tight_layout()
+    matplotlib.pyplot.show()
+
+def show_two_by_one(images, width, height, vmin=None, vmax=None):
+    show_in_grid(images, 1, 2, width, height, vmin=vmin, vmax=vmax)
 
 # skimage.color.rgb2lab goes values:
 #    0 - 100 for L
