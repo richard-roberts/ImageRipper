@@ -2,7 +2,7 @@ import numpy
 import pandas
 import sklearn.cluster
 
-def split_by_data(org, channels, weights, keys, n_clusters):
+def split_by_data(org, channels, weights, n_clusters, keys=[]):
     print("Running split_by_data (%d channels w %d clusters)" % (len(channels), n_clusters))
 
     print("    ... checks and config")
@@ -14,6 +14,11 @@ def split_by_data(org, channels, weights, keys, n_clusters):
 
     rows, cols = channels[0].shape
     dims = len(channels)
+
+    if keys == []:
+        print("    ... generating keys")
+        for c in channels:
+            keys.append(str(c))
 
     print("    ... building data frame")
     df = pandas.DataFrame()
