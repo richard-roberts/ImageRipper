@@ -27,8 +27,8 @@ def split_by_data(org, channels, weights, n_clusters, keys=[]):
 
     print("    ... running kmeans")
     kmeans = sklearn.cluster.KMeans(n_clusters=n_clusters, verbose=0)
-    clusters = kmeans.fit_predict(df)
-
+    clusters = kmeans.fit_predict(df[keys])
+    
     print("    ... grabbing brushes")
     brushes = []
     for cluster_ix in range(max(clusters) + 1):
