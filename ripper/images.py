@@ -1,4 +1,16 @@
 import numpy
+import skimage.io
+
+def open_rgb(filepath):
+    return skimage.io.imread(fname=filepath)
+
+def convert_rgb_to_lab(img):
+    return skimage.color.rgb2lab(img)
+
+def split_by_channels(img):
+    n = len(img[0, 0, :])
+    return [ img[:, :, i] for i in range(n) ]
+
 
 # skimage.color.rgb2lab goes values:
 #    0 - 100 for L
