@@ -29,6 +29,13 @@ def split_by_data(org, channels, weights, n_clusters, keys=[]):
     kmeans = sklearn.cluster.KMeans(n_clusters=n_clusters, verbose=0)
     clusters = kmeans.fit_predict(df[keys])
     
+    print("    ... choosing default value")
+    if type(org[0, 0]) == numpy.float64:
+        missing_value = 0
+    else:
+        n = len(org[0, 0])
+        missing_value = [0 for i in range(n)]
+
     print("    ... grabbing brushes")
     brushes = []
     for cluster_ix in range(max(clusters) + 1):
@@ -36,7 +43,7 @@ def split_by_data(org, channels, weights, n_clusters, keys=[]):
         for i in range(rows):
             row = []
             for j in range(cols):
-                row.append([255, 255, 255] if clusters[i * cols + j] != cluster_ix else org[i][j])
+                row.append(missing_value if clusters[i * cols + j] != cluster_ix else org[i][j])
             brush.append(row)
         brush = numpy.array(brush)
         brushes.append(brush)
